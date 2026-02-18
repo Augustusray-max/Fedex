@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MessageCircle, X } from 'lucide-react';
+import { MessagesSquare, X } from 'lucide-react';
 
 export default function ContactBubble() {
 	const [open, setOpen] = useState(false);
@@ -49,7 +49,7 @@ export default function ContactBubble() {
 								value={formData.name}
 								onChange={handleChange}
 								placeholder="Name"
-								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#490f80]"
 								required
 							/>
 							<input
@@ -58,7 +58,7 @@ export default function ContactBubble() {
 								value={formData.email}
 								onChange={handleChange}
 								placeholder="Email"
-								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#490f80]"
 								required
 							/>
 							<textarea
@@ -67,12 +67,12 @@ export default function ContactBubble() {
 								onChange={handleChange}
 								placeholder="Message"
 								rows={4}
-								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+								className="border rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-[#490f80]"
 								required
 							/>
 							<button
 								type="submit"
-								className="bg-blue-500 text-white rounded-md py-2 hover:bg-blue-600 transition"
+								className="bg-[#490f80] text-white rounded-md py-2 hover:bg-[#490f80] transition"
 							>
 								Send Message
 							</button>
@@ -84,9 +84,9 @@ export default function ContactBubble() {
 			{/* Floating Chat Bubble */}
 			<button
 				onClick={() => setOpen(true)}
-				className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-lg hover:bg-blue-600 transition"
+				className="w-14 h-14 rounded-full bg-[#490f80] text-white flex items-center justify-center shadow-lg hover:bg-[#490f80] transition"
 			>
-				<MessageCircle className="w-6 h-6" />
+				<MessagesSquare className="w-6 h-6" />
 			</button>
 		</div>
 	);

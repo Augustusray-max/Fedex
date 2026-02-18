@@ -101,7 +101,7 @@ const Support = () => {
 							placeholder=""
 							className="flex-1 p-2 border border-black text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
 						/>
-						<button className="bg-orange-white border-2 border-orange-600 hover:bg-orange-600 text-orange-600 font-bold px-5 py-2">
+						<button className="bg-orange-white border-2 border-orange-600 hover:bg-orange-600 hover:text-white text-orange-600 font-bold px-5 py-2">
 							CHECK NOW
 						</button>
 					</div>

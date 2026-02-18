@@ -1,4 +1,7 @@
 import BoostYourBusiness from '@/components/BoostYourBusiness';
+import { TrackingInput } from '@/components/tracking-input';
+import { DeliveryDetails } from '@/components/delivery-details';
+import { TrackingDetails } from '@/components/tracking-details';
 import WhyShipWithUs from '@/components/WhyShipWithUs';
 import { Calculator, Package, Headphones } from 'lucide-react';
 import Image from 'next/image';
@@ -61,7 +64,7 @@ export default function Home() {
 							</div>
 
 							{/* TRACKING */}
-							<div className="w-full">
+							{/* <div className="w-full">
 								<div className="flex flex-row w-full">
 									<input
 										type="text"
@@ -72,7 +75,8 @@ export default function Home() {
 										TRACK
 									</button>
 								</div>
-							</div>
+							</div> */}
+							<TrackingInput />
 						</div>
 					</div>
 				</div>

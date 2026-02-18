@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
 import {
 	ChevronDown,
@@ -13,20 +14,26 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export function Header() {
+	const [input, setInput] = useState('');
+	const router = useRouter();
 	const wrapperRef = useRef<HTMLDivElement>(null);
 
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-	const [trackingId, setTrackingId] = useState('');
 
 	const toggleDropdown = (name: string) => {
 		setOpenDropdown((prev) => (prev === name ? null : name));
 	};
 
-	const handleTrack = () => {
-		if (trackingId.trim()) {
-			console.log('Tracking:', trackingId);
-		}
+	const handleSearch = () => {
+		if (!input.trim()) return alert('Enter tracking number');
+
+		router.push(`/tracking/${input.trim()}`);
+		setInput('');
+	};
+
+	const handleKeyPress = (e: React.KeyboardEvent) => {
+		if (e.key === 'Enter') handleSearch();
 	};
 
 	// Close dropdowns and mobile menu on outside click
@@ -79,14 +86,14 @@ export function Header() {
 									</label>
 									<input
 										type="text"
-										value={trackingId}
-										onChange={(e) => setTrackingId(e.target.value)}
-										onKeyDown={(e) => e.key === 'Enter' && handleTrack()}
+										value={input}
+										onChange={(e) => setInput(e.target.value)}
+										onKeyPress={handleKeyPress}
 										placeholder="Tracking Number"
 										className="w-full px-4 py-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-orange-500"
 									/>
 									<button
-										onClick={handleTrack}
+										onClick={handleSearch}
 										className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-md flex items-center justify-center gap-2"
 									>
 										TRACK <ArrowRight className="w-5 h-5" />
@@ -124,14 +131,6 @@ export function Header() {
 
 					{/* Right Side */}
 					<div className="flex items-center gap-3">
-						<button className="hidden sm:flex items-center gap-2 hover:underline">
-							<span className="text-sm">Sign Up or Log In</span>
-							<UserCircle className="w-6 h-6" />
-						</button>
-
-						<Search className="hidden sm:block w-6 h-6" />
-						<UserCircle className="w-6 h-6 sm:hidden" />
-
 						{/* Mobile Toggle */}
 						<button
 							onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -170,14 +169,14 @@ export function Header() {
 									</label>
 									<input
 										type="text"
-										value={trackingId}
-										onChange={(e) => setTrackingId(e.target.value)}
-										onKeyDown={(e) => e.key === 'Enter' && handleTrack()}
+										value={input}
+										onChange={(e) => setInput(e.target.value)}
+										onKeyPress={handleKeyPress}
 										placeholder="Tracking Number"
 										className="w-full px-4 py-3 border border-gray-300 rounded-md mb-3 focus:ring-2 focus:ring-orange-500"
 									/>
 									<button
-										onClick={handleTrack}
+										onClick={handleSearch}
 										className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-md flex items-center justify-center gap-2 transition"
 									>
 										TRACK <ArrowRight className="w-5 h-5" />
