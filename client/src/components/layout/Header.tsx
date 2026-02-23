@@ -2,14 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useRef, useEffect } from 'react';
-import {
-	ChevronDown,
-	Search,
-	UserCircle,
-	Menu,
-	X,
-	ArrowRight,
-} from 'lucide-react';
+import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 

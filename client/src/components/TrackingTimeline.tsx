@@ -10,24 +10,49 @@ type Step = {
 	date?: string;
 };
 
-const steps: Step[] = [
-	{ title: 'Origin Terminal', location: 'Nashville, TN US' },
-	{ title: 'We Have Your Package' },
-	{
-		title: 'On The Way',
-		location: 'Edwardsville, KS',
-		date: '9/27/25 2:20 AM',
-	},
-	{ title: 'Out For Delivery' },
-	{ title: 'Delivered', location: 'Omaha, NE US' },
-];
-
 export default function TrackingTimeline() {
 	const router = useRouter();
 	const { trackingData } = useTrackingStore();
 	if (!trackingData) return null;
 
-	const activeIndex = 2;
+	// Create dynamic steps based on tracking data
+	const steps: Step[] = [
+		{
+			title: 'Origin Terminal',
+			location: `${trackingData.origin?.city}, ${trackingData.origin?.state} US`,
+		},
+		{ title: 'We Have Your Package' },
+		{
+			title: 'On The Way',
+			location: trackingData.current
+				? `${trackingData.current.city}, ${trackingData.current.state}`
+				: trackingData.locations.length > 0
+					? `${trackingData.locations[trackingData.locations.length - 1].city}, ${trackingData.locations[trackingData.locations.length - 1].state}`
+					: 'In Transit',
+			date: trackingData.current
+				? `${trackingData.current.date} ${trackingData.current.time}`
+				: trackingData.locations.length > 0
+					? `${new Date(trackingData.locations[trackingData.locations.length - 1].date).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' }).replace(/\//g, '/')} ${new Date(trackingData.locations[trackingData.locations.length - 1].date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`
+					: '',
+		},
+		{ title: 'Out For Delivery' },
+		{
+			title: 'Delivered',
+			location: `${trackingData.destination?.city}, ${trackingData.destination?.state} US`,
+		},
+	];
+
+	// Calculate active index based on shipment progress
+	const activeIndex =
+		trackingData.status === 'Delivered'
+			? 4
+			: trackingData.status === 'Out For Delivery'
+				? 3
+				: trackingData.locations.length > 1
+					? 2 // Multiple locations = On The Way
+					: trackingData.locations.length === 1
+						? 1 // One location = We Have Your Package
+						: 0; // No locations = Origin
 
 	return (
 		<div className="flex gap-4 -mb-20 w-full max-w-3xl mx-auto p-6">
@@ -97,15 +122,15 @@ export default function TrackingTimeline() {
 					<div>
 						<p className="text-xs font-bold text-gray-700 uppercase">FROM</p>
 						<p className="text-gray-900">
-							{trackingData.from.city}, {trackingData.from.state} US
+							{trackingData.origin?.city}, {trackingData.origin?.state} US
 						</p>
 					</div>
 					<div>
 						<p className="text-xs text-gray-500 italic">
-							{trackingData.from.terminal}
+							{trackingData.origin?.terminal}
 						</p>
 						<p className="text-xs text-blue-600 font-medium mt-1 uppercase">
-							{trackingData.from.city}, {trackingData.from.state}
+							{trackingData.origin?.city}, {trackingData.origin?.state}
 						</p>
 					</div>
 				</div>
@@ -121,15 +146,23 @@ export default function TrackingTimeline() {
 						ON THE WAY
 					</p>
 					<p className="font-semibold text-gray-900">
-						{trackingData.current.location}, {trackingData.current.state}
+						{trackingData.current
+							? `${trackingData.current.city}, ${trackingData.current.state}`
+							: trackingData.locations.length > 0
+								? `${trackingData.locations[trackingData.locations.length - 1].city}, ${trackingData.locations[trackingData.locations.length - 1].state}`
+								: 'In Transit'}
 					</p>
 					<p className="text-xs text-gray-600">
-						{trackingData.current.date} {trackingData.current.time}
+						{trackingData.current
+							? `${trackingData.current.date} ${trackingData.current.time}`
+							: trackingData.locations.length > 0
+								? `${new Date(trackingData.locations[trackingData.locations.length - 1].date).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: '2-digit' }).replace(/\//g, '/')} ${new Date(trackingData.locations[trackingData.locations.length - 1].date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}`
+								: ''}
 					</p>
 					<button
 						className="text-sm text-gray-600 underline font-medium hover:text-blue-400 mt-2"
 						onClick={() =>
-							router.push(`/tracking/${trackingData.trackingId}/details`)
+							router.push(`/tracking/${trackingData.trackingNumber}/details`)
 						}
 					>
 						View more details
@@ -145,7 +178,8 @@ export default function TrackingTimeline() {
 				<div>
 					<p className="text-xs font-bold text-gray-600 uppercase">TO</p>
 					<p className="text-gray-600">
-						{trackingData.to.city}, {trackingData.to.state} US
+						{trackingData.destination?.city}, {trackingData.destination?.state}{' '}
+						US
 					</p>
 				</div>
 			</div>

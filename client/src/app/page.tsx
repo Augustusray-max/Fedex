@@ -1,7 +1,5 @@
 import BoostYourBusiness from '@/components/BoostYourBusiness';
 import { TrackingInput } from '@/components/tracking-input';
-import { DeliveryDetails } from '@/components/delivery-details';
-import { TrackingDetails } from '@/components/tracking-details';
 import WhyShipWithUs from '@/components/WhyShipWithUs';
 import { Calculator, Package, Headphones } from 'lucide-react';
 import Image from 'next/image';

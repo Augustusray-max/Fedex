@@ -15,7 +15,7 @@ export function DeliveryDetails() {
 	if (!trackingData) return null;
 
 	const handleCopy = () => {
-		navigator.clipboard.writeText(trackingData.trackingId);
+		navigator.clipboard.writeText(trackingData.trackingNumber);
 	};
 
 	return (
@@ -26,7 +26,7 @@ export function DeliveryDetails() {
 					<p className="text-lg sm:text-[22px] text-gray-900">
 						Tracking ID:{' '}
 						<span className="font-light text-base sm:text-xl text-gray-900">
-							{trackingData.trackingId}
+							{trackingData.trackingNumber}
 						</span>
 					</p>
 					<div className="flex sm:gap-2">
